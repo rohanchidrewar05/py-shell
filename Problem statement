@@ -1,0 +1,128 @@
+Implement a simple modular UNIX-like shell using Python
+
+* Requirement:
+    We need a fully programmable user-land ecosystem purely on Python for deployment on IoT boards like RaspberryPi and BeagleBone. Ideally, a Linux system need to be integrated with just the kernel and the userland ecosystem that consists only of Python. This would provide a very lean, flexible and a dynamic programmer-friendly user-land environment.
+
+    In order to achieve this goal we need to build a rudimentary UNIX-like shell that allows extensibility using custom python modules to implement various features as shell commands.
+
+    This mini-project should implement the rudimentary skeleton shell that can be extended easily with new commands and functionality with minimal effort by a developer. The shell should support user-friendly command-line interface and also have a command history support that could be recalled across invocations (similar to the ~/.bash_history feature available on bash shell).
+
+    The shell should be packaged such that it should be easily installable on any target platform.
+
+    Create a shell that implements the following commands:
+
+* Directory related commands:
+    ls (with support for -R or --recursive switch for listing contents of directory recursively)
+    mkdir
+    pwd
+    rmdir
+    cd
+
+* File related commands:
+    cat
+    cp
+    rm (with support for -r switch to recursively delete folder/files)
+    mv
+    grep
+    head
+    tail
+    sizeof (print size of a file in bytes)
+    find
+
+* Miscellaneous commands:
+    date (built-in command)
+    whoami (built-in command)
+    hostname (built-in command)
+    timeit (built-in command - print time taken by a command in seconds)
+    exit (built-in command)
+    history (built-in command)
+    
+Implement the shell using modular/scalable approach.
+
+The shell should compromise of the following components for scalability:
+
+The core event loop - code that accepts user input, tokenize and evaluate commands
+
+Dispatch routines - the actual functions that implement the command. All miscellaneous commands must be implemented as a built-in command that involves adding new functions for any new future commands to be implemented without changing the core event loop and argument parser.
+
+Plug-in commands - All directory/file related commands must be implemented as a separate module that must be dynamically imported matching the command name. Thus, to add a new command into the shell, create a python module with the same name as the command in a specific folder. This module should have run() function that would contain the command implementation.
+
+Cross-cutting functionality - code that implements recursive traversal of files, parsing command-line switches and arguments passed to commands.
+
+All commands must be implemented purely within Python using the standard python library, without invoking external programs.
+
+The commands must mimic the behaviour of GNU coreutils commands (Linux shell). But not all command-line switches need to be implemented for this project. Just implement the command-line switches mentioned in the above commands list requirements.
+
+The shell must be highly extensible and efficient. The interface for adding new custom commands must be simple.
+
+Usage example when the shell is executed should be as described below (support all of the following features):
+
+    PyShell> ls
+    a.txt b.txt pyshell.py testfile.txt
+
+    PyShell> ls /
+    bin usr sbin lib dev etc opt root home tmp
+
+    PyShell> sdfsdf
+    `sdfsdf` is an invalid command
+
+    PyShell> mkdir testfolder
+
+    PyShell> ls
+    a.txt b.txt pyshell.py testfile.txt testfolder
+
+    PyShell> mkdir testfolder
+    mkdir: `testfolder` already exists.
+
+    PyShell> cp a.txt testfolder
+
+    PyShell> ls testfolder
+    a.txt
+
+    PyShell> rmdir testfolder
+    rmdir: `testfolder` is not empty.
+
+    PyShell> pwd
+    /home/pythonista/python_exercises
+
+    PyShell> cd testfolder
+
+    PyShell> pwd
+    /home/pythonista/python_exercises/testfolder
+
+    PyShell> cd ..
+
+    PyShell> rm -r testfolder
+
+    PyShell> ls
+    a.txt b.txt pyshell.py testfile.txt
+
+    PyShell> sizeof a.txt
+    47 bytes
+
+    PyShell> timeit cp a.txt c.txt
+    `cp a.txt c.txt` took 0.23125 seconds.
+
+
+    PyShell> head -3 a.txt
+    this is first line in a.txt
+    this is second line in a.txt
+    this is third line in a.txt
+
+    PyShell> tail -1 a.txt
+    this is the last line in a.txt
+
+    PyShell> grep -n seven a.txt
+    a.txt:7:this is seventh line in a.txt
+
+    PyShell> find / words
+    /usr/share/dict/words
+
+    PyShell> find / passwd
+    /etc/passwd
+
+    PyShell> ls werewr
+    * Unhandled `FileNotFoundError` exception: [Errno 2] No such file or directory: 'werewr'
+
+    PyShell> exit
+    PyShell exited.

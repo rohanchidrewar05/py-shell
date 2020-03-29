@@ -1,0 +1,7 @@
+cp
+pwd
+pwd
+pwd
+cp
+pwd
+cp
