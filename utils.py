@@ -24,14 +24,18 @@ def log_cmd(str,hf_path,count):
 def pre_process_cmd(str):
     pattern = re.compile('-\w+')
     temp_opts = re.findall(pattern,str)
+    big_opts = re.findall('--\w+',str)
     #print(temp_opts)
+    #print(big_opts)
     opts = []
     for opt in temp_opts:
-        i = 1
-        while(i<len(opt)):
-            opts = opts + list(opt[i]) 
-            i = i + 1
+        if '-'+opt not in big_opts:
+            i = 1
+            while(i<len(opt)):
+                opts = opts + list(opt[i]) 
+                i = i + 1
     
+    opts = opts + [ big[2:] for big in big_opts]
     ending = 0
     for match in re.finditer(pattern,str):
         ending = match.end()+1
