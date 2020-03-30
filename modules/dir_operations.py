@@ -11,8 +11,36 @@ import shutil
 def inv_opt(func,opt):
     print(func,": invalid option -- \'",opt,'\'')
 
-def ls(func,opt):
-    pass
+def ls(opts,args):
+    for opt in opts:
+        if not ((opt == 'R') or (opt == 'recursive')):
+            inv_opt(ls.__name__,opt)
+            return
+
+    for arg in args:
+        path = os.path.join(os.getcwd(),str(arg))
+        if not (os.path.isfile(path) or os.path.isdir(path)):
+            print("ls: cannot access \'",arg,"\': No such file or directory")
+            return
+        if ('R' in opts) or ('recursive' in opts):
+            queue = []
+            queue.append(arg)
+            while( len(queue) > 0):
+                parent = queue.pop(0)
+                print(('.'+parent+":\n"))
+                files = [f for f in os.listdir(os.path.join(os.getcwd(),parent)) if f[0] != '.']
+                for file in files:
+                    if os.path.isdir(os.path.join(parent,file)):
+                        queue.append(os.path.join(parent,file))
+                    print(file,"  ",end ="")
+                print('\n')
+        else:
+            if(len(args) > 1):
+                print(arg," :\n")
+            files = [f for f in os.listdir(os.path.join(os.getcwd(),arg)) if f[0] != '.']
+            for file in files:
+                print(file,"  ",end ="")
+            print('\n')
 
 def cd(opts,args):
     

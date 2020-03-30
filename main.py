@@ -2,11 +2,6 @@ import os
 import sys
 from modules import file_operations,dir_operations
 from utils import *
-
-def py():
-    print("pyshell>>", end=" ")    
-
-    
 # step 1
 # Prepare command parser: identify command and arguments
 #directory/file related commands must be implemented as a separate module
@@ -27,6 +22,10 @@ def print_command(cmd,opts,args):
     print("Options   : ", opts)
     print("Arguments : ",args)
 
+
+def py():
+    print("pyshell>>", end=" ")    
+
 def imports():
     module_path = os.path.join(os.getcwd(),'modules')
     modules = [f[:-3] for f in os.listdir(module_path) if os.path.isfile(os.path.join(module_path,f))]
@@ -41,13 +40,15 @@ if __name__ == "__main__":
     version = "v0.001"
     hf_path,count = initalize_history() 
     modules = imports()
-    print(modules)
+    #print(modules)
     debug = 0
     print("Welcome to pyshell",version)
     try:
         while(1):
             py()
             ori_cmd = input()
+            opts = []
+            args = []
             cmd, opts, args = pre_process_cmd(ori_cmd)
             if(debug):
                 print_command(cmd,opts,args)
@@ -59,10 +60,13 @@ if __name__ == "__main__":
                     function = getattr(str_to_class(module),cmd)
                     if(debug):
                         print("Found function : ",function," in :",module)
+                    break
                 except AttributeError:
                     pass
 
             try:
+                if(debug):
+                    print("Running : ",function)
                 function(opts,args)
                 count = log_cmd(ori_cmd,hf_path,count)
                 del(function)
