@@ -11,6 +11,24 @@ import shutil
 def inv_opt(func,opt):
     print(func,": invalid option -- \'",opt,'\'')
 
+def ls(func,opt):
+    pass
+
+def cd(opts,args):
+    
+    if(len(args)>1):
+        print(cd.__name__,": too many arguments")
+        return
+
+    if( len(opts)>0 ):
+        inv_opt(cd.__name__,opts[0])
+        return
+
+    if os.path.isdir(str(args[0])):
+        os.chdir(str(args[0]))
+    else:
+        print(cd.__name__,": ",args[0],": No such file or directory")
+
 def pwd(opts,args):
     if( len(opts)>0 ):
         inv_opt(pwd.__name__,opts[0])
