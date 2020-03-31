@@ -16,6 +16,24 @@ import shutil
 def inv_opt(func,opt):
     print(func,": invalid option -- \'"+opt+'\'')
 
+def mv(opts,args):
+    if len(opts) > 0:
+        inv_opt(mv.__name__,opts[0])
+    
+    if(len(args) != 2 ):
+        print("Arguments should be 2")
+        return
+
+    file_path = os.path.join(os.getcwd(),args[0])
+    
+    dest_path = os.path.join(os.getcwd(),args[1])
+
+    if os.path.isdir(dest_path):
+        args[1] = args[1]+'/'
+
+    shutil.move(file_path,dest_path)
+
+
 def rm(opts,args):
     is_r = False
     for opt in opts:
