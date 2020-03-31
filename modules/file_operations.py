@@ -16,8 +16,40 @@ import shutil
 def inv_opt(func,opt):
     print(func,": invalid option -- \'"+opt+'\'')
 
+def rm(opts,args):
+    is_r = False
+    for opt in opts:
+        if opt != 'r':
+            inv_opt(rm.__name__,opt)
+            return
+        elif opt == 'r':
+            is_r = True
+
+    for arg in args:
+        file_path = os.path.join(os.getcwd(),arg)
+        
+        if not os.path.exists(file_path):
+            print(rm.__name__,": cannot remove \'",arg,"\': No such file or directory exists")
+            continue
+        
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+        elif os.path.isdir(file_path):
+            try:
+                os.rmdir(file_path)
+            except:
+                if(is_r):
+                    shutil.rmtree(file_path)
+                else:
+                    print(rm.__name__,': cannot remove',arg,"Is a directory")
+                    continue
+
 def cp(opts,args):
     
+    if(len(opts)>0):
+        inv_opt(cp.__name__,opts[0])
+        return
+
     if(len(args)<2):
         print("Missing min. number of arguments")
         return
