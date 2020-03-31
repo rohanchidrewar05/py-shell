@@ -11,9 +11,32 @@
     find
 '''
 import os
+import shutil
 
 def inv_opt(func,opt):
     print(func,": invalid option -- \'"+opt+'\'')
+
+def cp(opts,args):
+    
+    if(len(args)<2):
+        print("Missing min. number of arguments")
+        return
+
+    dest_path = os.path.join(os.getcwd(),args[-1])
+    if(len(args)>2 and not os.path.isdir(dest_path)):
+        print(cp.__name__,"target",args[-1],"is not a directory or doesn't exist")
+        return
+    
+    for i in range(len(args)-1):
+        file_path = os.path.join(os.getcwd(),args[i])
+        if( not(os.path.exists(file_path)) or os.path.isdir(file_path)):
+            print(args[i],"doesn't exist or is a directory")
+            return
+        if(len(args)==2):
+            dest_path = os.path.join(os.getcwd(),args[1])
+        else:
+            dest_path = os.path.join(os.getcwd(),os.path.join(args[-1],args[i]))
+        shutil.copyfile(file_path,dest_path)
 
 def cat(opts,args):
     if len(args) == 1 and args[0]=='':
@@ -23,7 +46,7 @@ def cat(opts,args):
                 print(str)
             except:
                 return
-                
+
     if len(opts)>0:
         inv_opt(cat.__name__,opts[0])
         return
@@ -56,6 +79,3 @@ def cat(opts,args):
                 strs = f.readlines()
                 for str in strs:
                     print(str, end="")
-
-def cp(opts,args):
-    pass
