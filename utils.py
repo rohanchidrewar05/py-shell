@@ -2,7 +2,7 @@ import re
 import os
 
 def log_cmd(str,hf_path,count):
-    if(count < 200):
+    if(count < 1000):
         hf = open(hf_path,'r+')
         hf.seek(0,2)
         hf.write(str)
