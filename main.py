@@ -47,6 +47,8 @@ if __name__ == "__main__":
         while(1):
             py()
             ori_cmd = input()
+            if(not len(ori_cmd)):
+                continue
             opts = []
             args = []
             cmd, opts, args = pre_process_cmd(ori_cmd)
