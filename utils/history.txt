@@ -104,3 +104,27 @@ rm use1
 rm use2 use4 use3
 rm use6 use5
 rm -r use7 use5
+mkdir useless2
+mv useless useless2
+mkdir useless3
+cd useless3
+ls
+mkdir useless4
+cd ..
+ls
+mv useless3 useless5
+cd ..
+pwd
+ls
+cd py-shell
+cd useless
+ls
+cd usless
+mv useless2 usless4
+mv usless4 useless4
+rmdir usless
+rmdir -r usless
+grep if temp.txt
+grep if temp.txt
+grep if temp.txt
+grep if temp.txt main.py

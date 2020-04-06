@@ -12,9 +12,35 @@
 '''
 import os
 import shutil
+import re
 
 def inv_opt(func,opt):
     print(func,": invalid option -- \'"+opt+'\'')
+
+def grep(opts,args):
+    if( len(opts)>0 ):
+        inv_opt(grep.__name__,opts[0])
+        return
+    if( len(args) < 1):
+        print("At least 2 arguments are needed")
+    pattern = args[0]
+    for i in range(len(args)-1):
+        file_path = os.path.join(os.getcwd(),args[i+1])
+        if not os.path.isfile(file_path):
+            print(grep.__name__+":",args[i+1]+":","No Such file exists.")
+            continue
+        if os.path.isdir(file_path):
+            print(grep.__name__+":",args[i+1]+":","Is a directory.")
+            continue
+        files = open(file_path,'r')
+        lines = files.readlines()
+        files.close()
+        for line in lines:
+            if(len(re.findall(pattern,line))):
+                if(len(args)>2):
+                    print(args[i+1]+":",end=" ")
+                print(line[1:len(line)-2])
+    return
 
 def mv(opts,args):
     if len(opts) > 0:
