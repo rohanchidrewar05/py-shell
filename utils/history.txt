@@ -128,3 +128,17 @@ grep if temp.txt
 grep if temp.txt
 grep if temp.txt
 grep if temp.txt main.py
+head temp.txt
+head temp.txt
+head temp.txt
+head temp.txt
+head main.py utils.py
+head main.py utils.py
+head main.py utils.py
+head utils.py main.py
+head utils.py main.py
+tail main.py utils.py
+tail main.py utils.py
+tail main.py utils.py
+tail main.py utils.py
+tail main.py utils.py
