@@ -17,6 +17,35 @@ import re
 def inv_opt(func,opt):
     print(func,": invalid option -- \'"+opt+'\'')
 
+def head(opts,args):
+    if( len(opts)>0 ):
+        inv_opt(grep.__name__,opts[0])
+        return
+    for arg in args:
+        
+        file_path = os.path.join(os.getcwd(),arg)
+        
+        if os.path.isdir(file_path):
+            print(head.__name__+": error reading '"+arg+"': Is a directory")
+            continue
+        
+        elif not os.path.isfile(file_path):
+            print(head.__name__+": cannot open '"+arg+"': No such file exists")
+            continue
+
+        f = open(file_path,'r')
+        lines = f.readlines()
+        f.close()
+        if(len(args)>1):
+            print("==>",arg,"<==")
+        for i in range(len(lines)):
+            if i == 10:
+                if( arg != args[len(args)-1]):
+                    print()
+                break
+            print(lines[i][:-1])
+    return
+
 def grep(opts,args):
     if( len(opts)>0 ):
         inv_opt(grep.__name__,opts[0])
