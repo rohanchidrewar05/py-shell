@@ -13,9 +13,28 @@
 import os
 import shutil
 import re
+from utils import inv_opt
 
-def inv_opt(func,opt):
-    print(func,": invalid option -- \'"+opt+'\'')
+def sizeof(opts,args):
+    if( len(opts)>0 ):
+        inv_opt(sizeof.__name__,opts[0])
+        return
+
+    for arg in args:
+        file_path = os.path.join(os.getcwd(),arg)
+        if (not (os.path.isfile(file_path)) or os.path.isdir(file_path)):
+            print(sizeof.__name__ + ":" , arg + ": is not a File or is a Directory")
+            continue
+        size = os.lstat(file_path)[6]
+        ext = "B"
+        if size > 1000:
+            size = size/1000
+            ext = "kB"
+        if size > 1000:
+            size = size/1000
+            ext = "MB"
+        print("Size of",arg+": ",size,ext)
+    return
 
 def tail(opts,args):
     if( len(opts)>0 ):
