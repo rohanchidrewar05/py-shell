@@ -7,9 +7,8 @@ cd
 '''
 import os
 import shutil
+from utils import inv_opt
 
-def inv_opt(func,opt):
-    print(func,": invalid option -- \'"+opt+'\'')
 
 def ls(opts,args):
     for opt in opts:

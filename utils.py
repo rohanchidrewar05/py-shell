@@ -1,6 +1,9 @@
 import re
 import os
 
+def inv_opt(func,opt):
+    print(func,": invalid option -- \'"+opt+'\'')
+
 def log_cmd(str,hf_path,count):
     if(count < 1000):
         hf = open(hf_path,'r+')
@@ -47,7 +50,7 @@ def pre_process_cmd(str):
     return cmd,opts,args
 
 def initalize_history():
-    hf_path = os.path.join(os.path.join(os.getcwd(),'utils'),'history.txt')
+    hf_path = os.path.join(os.path.join(os.getcwd(),'logs'),'history.txt')
     hf = open(hf_path,'r+')
     count = 0
     for line in hf:

@@ -1,6 +1,6 @@
 import os
 import sys
-from modules import file_operations,dir_operations
+from modules import file_operations,dir_operations,misc
 from utils import *
 # step 1
 # Prepare command parser: identify command and arguments
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     hf_path,count = initalize_history() 
     modules = imports()
     #print(modules)
-    debug = 0
+    debug = 1
     print("Welcome to pyshell",version)
     try:
         while(1):
@@ -72,6 +72,11 @@ if __name__ == "__main__":
                 function(opts,args)
                 count = log_cmd(ori_cmd,hf_path,count)
                 del(function)
+            
+            except KeyboardInterrupt:
+                print("\nThanks for using pyshell",version)
+                print("Closing...")
+                break
             except NameError:
                 print("Command not found")
     except KeyboardInterrupt:
