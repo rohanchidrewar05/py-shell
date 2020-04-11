@@ -15,6 +15,30 @@ import shutil
 import re
 from utils import inv_opt
 
+
+
+def find(opts,args):
+    if( len(opts)>0 ):
+        inv_opt(find.__name__,opts[0])
+        return
+    
+    files = [f for f in os.listdir() if f[0] != '.']
+    for arg in args:
+        if arg in files:
+            if os.path.isfile(arg):
+                print(arg)
+            queue = []
+            queue.append(arg)
+            if os.path.isdir(arg):
+                while(len(queue) > 0):
+                    file_path = queue.pop()
+                    print(file_path)
+                    if os.path.isdir(file_path):
+                        queue = queue + [file_path+'/'+f for f in os.listdir(file_path)]    
+        else:
+            print(find.__name__,'\''+arg+'\'',': No such file or directory exists in this folder')
+
+
 def sizeof(opts,args):
     if( len(opts)>0 ):
         inv_opt(sizeof.__name__,opts[0])
