@@ -67,7 +67,7 @@ def mkdir(opts,args):
         inv_opt(mkdir.__name__,opts[0])
         return
 
-    rnw = "str"
+    rnw = ""
     try:
         for arg in args:
             rnw = str(arg)

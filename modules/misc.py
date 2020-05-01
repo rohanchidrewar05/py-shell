@@ -24,7 +24,7 @@ def exit(opts,args):
 def history(opts,args):
     lines_to_get = 500
     if len(opts)>0:
-        inv_opt(history(history.__name__,opts[0]))
+        inv_opt(history.__name__,opts[0])
         return
 
     if len(args) == 1 and args[0] != '':
