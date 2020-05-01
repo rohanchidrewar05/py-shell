@@ -34,6 +34,30 @@ def imports():
 def str_to_class(str):
     return getattr(sys.modules[__name__],str)
 
+def get_function(modules):
+    for module in modules:
+                if(debug):
+                    print("Searchin in :",module)
+                try:
+                    function = getattr(str_to_class(module),cmd)
+                    if(debug):
+                        print("Found function : ",function," in :",module)
+                        return function
+                    break
+                except AttributeError:
+                    pass
+
+def run_function(function,debug,count):
+    try:
+        if(debug):
+            print("Running : ",function)
+        function(opts,args)
+        count = log_cmd(ori_cmd,hf_path,count)
+        del(function)
+    
+    except TypeError:
+        print("Command not found")
+        return
 
 if __name__ == "__main__":
     #CORE EVENT LOOP
@@ -49,36 +73,20 @@ if __name__ == "__main__":
             ori_cmd = input()
             if(not len(ori_cmd)):
                 continue
-            opts = []
-            args = []
+            opts,args = [],[]
+
             cmd, opts, args = pre_process_cmd(ori_cmd)
+            
             if(debug):
                 print_command(cmd,opts,args)
 
-            for module in modules:
-                if(debug):
-                    print("Searchin in :",module)
-                try:
-                    function = getattr(str_to_class(module),cmd)
-                    if(debug):
-                        print("Found function : ",function," in :",module)
-                    break
-                except AttributeError:
-                    pass
+            function = get_function(modules)
 
-            try:
-                if(debug):
-                    print("Running : ",function)
-                function(opts,args)
-                count = log_cmd(ori_cmd,hf_path,count)
-                del(function)
+            run_function(function,debug,count)
             
-            except KeyboardInterrupt:
-                print("\nThanks for using pyshell",version)
-                print("Closing...")
-                break
-            except NameError:
-                print("Command not found")
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt,EOFError):
         print("\nThanks for using pyshell",version)
-        print("Closing...")        
+        print("Closing...")
+    except:
+        print("\nInternal Error")
+        print("Closing...")       

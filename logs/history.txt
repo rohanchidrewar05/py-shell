@@ -160,3 +160,15 @@ find modules logs main.py
 history 10
 history
 history
+ls
+ls
+ls
+cd ..
+ls
+cd ..
+pwd
+ls
+cd py-shell
+cd ..
+pwd
+ls
