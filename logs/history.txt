@@ -152,3 +152,11 @@ sizeof temp.txt
 sizeof temp.txt
 sizeof temp.txt main.py modules utils.py
 sizeof Tremor.mp3
+find modules
+find modules
+find modules utils.py
+find modules logs main.py
+find modules logs main.py
+history 10
+history
+history
