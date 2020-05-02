@@ -1,7 +1,3 @@
-import os
-import sys
-from modules import file_operations,dir_operations,misc
-from utils import *
 # step 1
 # Prepare command parser: identify command and arguments
 #directory/file related commands must be implemented as a separate module
@@ -16,7 +12,14 @@ from utils import *
 # The interface for adding new custom commands must be simple.
 # step 5
 # figure out a way to package this
+
+import os
+import sys
+from modules import file_operations,dir_operations,misc
+from utils import *
+
 base_path = os.getcwd()
+debug = 1
 
 def print_command(cmd,opts,args):
     print("command   : ",cmd)
@@ -35,7 +38,7 @@ def imports():
 def str_to_class(str):
     return getattr(sys.modules[__name__],str)
 
-def get_function(cmd,debug):
+def get_function(cmd):
     modules = imports()
     for module in modules:
                 if(debug):
@@ -49,7 +52,7 @@ def get_function(cmd,debug):
                 except AttributeError:
                     pass
 
-def run_function(function,opts,args,debug):
+def run_function(function,opts,args):
     try:
         if(debug):
             print("Running : ",function)
@@ -65,7 +68,6 @@ if __name__ == "__main__":
     version = "v0.001"
     hf_path,count = initalize_history()
     #print(modules)
-    debug = 1
     print("Welcome to pyshell",version)
     try:
         while(1):
@@ -80,9 +82,9 @@ if __name__ == "__main__":
             if(debug):
                 print_command(cmd,opts,args)
 
-            function = get_function(cmd,debug)
+            function = get_function(cmd)
 
-            log_it = run_function(function,opts,args,debug)
+            log_it = run_function(function,opts,args)
             if log_it:
                 count = log_cmd(ori_cmd,hf_path,count)
     except (KeyboardInterrupt,EOFError):

@@ -37,6 +37,7 @@ def ls(opts,args):
             if(len(args) > 1):
                 print(arg," :\n")
             files = [f for f in os.listdir(os.path.join(os.getcwd(),arg)) if f[0] != '.']
+            files.sort()
             for file in files:
                 print(file,"  ",end ="")
             print('\n')
