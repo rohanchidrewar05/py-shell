@@ -1,3 +1,4 @@
+
 import re
 import os
 
@@ -25,28 +26,34 @@ def log_cmd(str,hf_path,count):
     return count
 
 def pre_process_cmd(str):
-    pattern = re.compile('-\w+')
-    temp_opts = re.findall(pattern,str)
-    big_opts = re.findall('--\w+',str)
-    #print(temp_opts)
-    #print(big_opts)
+    
+    sm_temp_opts = re.findall(' -\w+',str)
+    sm_temp_opts = [f[1:] for f in sm_temp_opts]
+    small_opts = []
+    for opt in sm_temp_opts:
+        small_opts = small_opts + [opt[1:]]
+
+    bg_temp_opts = re.findall(' --\w+',str)
+    bg_temp_opts = [f[1:] for f in bg_temp_opts]
+    big_opts = []
+    for opt in bg_temp_opts:
+        big_opts = big_opts + [opt[2:]]
+ 
     opts = []
-    for opt in temp_opts:
-        if '-'+opt not in big_opts:
-            i = 1
-            while(i<len(opt)):
-                opts = opts + list(opt[i]) 
-                i = i + 1
+    for opt in small_opts:
+        opts = opts + list(opt) 
+    opts = opts + big_opts
+
+    words = str.split(" ")
+    cmd = words[0]
     
-    opts = opts + [ big[2:] for big in big_opts]
-    ending = 0
-    for match in re.finditer(pattern,str):
-        ending = match.end()+1
+    args = []
+    for word in words:
+        if word not in sm_temp_opts+bg_temp_opts+[cmd]:
+            args = args+[word]
+    if len(args)==0:
+        args = ['']
     
-    cmd = str.split(" ")[0]
-    if(ending == 0):
-        ending = len(cmd)+1
-    args = str[ending:].split(' ')
     return cmd,opts,args
 
 def initalize_history():

@@ -34,10 +34,10 @@ def imports():
 def str_to_class(str):
     return getattr(sys.modules[__name__],str)
 
-def get_function(modules):
+def get_function(modules,cmd):
     for module in modules:
                 if(debug):
-                    print("Searchin in :",module)
+                    print("Searching in :",module)
                 try:
                     function = getattr(str_to_class(module),cmd)
                     if(debug):
@@ -80,13 +80,10 @@ if __name__ == "__main__":
             if(debug):
                 print_command(cmd,opts,args)
 
-            function = get_function(modules)
+            function = get_function(modules,cmd)
 
             run_function(function,debug,count)
             
     except (KeyboardInterrupt,EOFError):
         print("\nThanks for using pyshell",version)
-        print("Closing...")
-    except:
-        print("\nInternal Error")
-        print("Closing...")       
+        print("Closing...")   
