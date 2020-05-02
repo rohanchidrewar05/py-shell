@@ -172,3 +172,52 @@ cd py-shell
 cd ..
 pwd
 ls
+ls
+timeit ls
+timeit ls -l
+timeit ls -l
+timeit -l ls
+ls
+ls
+ls -l
+ls
+pwd
+ls
+ls
+ls
+ls
+ls
+timeit ls -m
+ls -l -t baapte
+timeit hahah -l --recursive -m
+ls -l
+ls -l
+ls -l -lm --recursive babababkfnv dnkn
+ls -l --lm -recursive bwahaha
+ls -l -lm --recursice haha lolo
+ls -l -lm --recursive tolol
+ls -l -lm --recursive argument timeit
+timeit ls -r
+pwd
+cd ..
+pwd
+ls
+cd py-shell
+pwd
+ls
+pwd
+cd ..
+pwd
+cd py-shell
+pwd
+timeit ls -l --recursive -lm
+ls
+ls
+ls
+ls
+timeit ls
+timeit cd ..
+pwd
+timeit pwd
+timeit cd py-shell
+timeit history 10

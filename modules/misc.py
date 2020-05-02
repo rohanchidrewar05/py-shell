@@ -7,7 +7,26 @@
 #    history (built-in command)
 
 from utils import inv_opt
+import time
 from modules import dir_operations 
+from main import get_function,run_function
+from utils import  initalize_history
+
+def timeit(opts,args):
+    debug = 1
+    tic = time.time()
+    if len(args) > 0:
+        cmd = args[0]
+
+    if len(args) == 1:
+        args = ['']
+    else:
+        args = args[1:]
+
+    function = get_function(cmd,debug)
+    _ = run_function(function,opts,args,debug)
+    toc = time.time()
+    print("Time taken by \'"+cmd+'\'',str(toc-tic),'secs')
 
 def exit(opts,args):
     
@@ -49,7 +68,3 @@ def history(opts,args):
     for i in range(lines_to_get):
         print(lines[start_index+i],end='')
     return
-
-def timeit(opts,args):
-    pass
-    

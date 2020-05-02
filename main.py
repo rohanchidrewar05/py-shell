@@ -16,6 +16,7 @@ from utils import *
 # The interface for adding new custom commands must be simple.
 # step 5
 # figure out a way to package this
+base_path = os.getcwd()
 
 def print_command(cmd,opts,args):
     print("command   : ",cmd)
@@ -27,14 +28,15 @@ def py():
     print("pyshell>>", end=" ")    
 
 def imports():
-    module_path = os.path.join(os.getcwd(),'modules')
+    module_path = os.path.join(base_path,'modules')
     modules = [f[:-3] for f in os.listdir(module_path) if os.path.isfile(os.path.join(module_path,f))]
     return modules
 
 def str_to_class(str):
     return getattr(sys.modules[__name__],str)
 
-def get_function(modules,cmd):
+def get_function(cmd,debug):
+    modules = imports()
     for module in modules:
                 if(debug):
                     print("Searching in :",module)
@@ -47,14 +49,13 @@ def get_function(modules,cmd):
                 except AttributeError:
                     pass
 
-def run_function(function,debug,count):
+def run_function(function,opts,args,debug):
     try:
         if(debug):
             print("Running : ",function)
         function(opts,args)
-        count = log_cmd(ori_cmd,hf_path,count)
         del(function)
-    
+        return True
     except TypeError:
         print("Command not found")
         return
@@ -62,8 +63,7 @@ def run_function(function,debug,count):
 if __name__ == "__main__":
     #CORE EVENT LOOP
     version = "v0.001"
-    hf_path,count = initalize_history() 
-    modules = imports()
+    hf_path,count = initalize_history()
     #print(modules)
     debug = 1
     print("Welcome to pyshell",version)
@@ -80,10 +80,11 @@ if __name__ == "__main__":
             if(debug):
                 print_command(cmd,opts,args)
 
-            function = get_function(modules,cmd)
+            function = get_function(cmd,debug)
 
-            run_function(function,debug,count)
-            
+            log_it = run_function(function,opts,args,debug)
+            if log_it:
+                count = log_cmd(ori_cmd,hf_path,count)
     except (KeyboardInterrupt,EOFError):
         print("\nThanks for using pyshell",version)
         print("Closing...")   
