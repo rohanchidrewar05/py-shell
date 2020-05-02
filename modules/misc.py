@@ -6,14 +6,33 @@
 #    exit (built-in command)
 #    history (built-in command)
 
-from utils import inv_opt
 import time
+import os
+from utils import inv_opt
 from modules import dir_operations 
-from main import get_function,run_function
-from utils import  initalize_history
+from main import get_function,run_function, debug
+import getpass
+
+def whoami(opts,args):
+    if len(opts) > 0:
+        inv_opt(whoami.__name__, opts[0])
+        return
+    if len(args) > 0 and args[0] != '':
+        print(whoami.__name__+": extra operand",args[0])
+        return
+    print(getpass.getuser())
+
+def hostname(opts,args):
+    if len(opts) > 0:
+        inv_opt(hostname.__name__, opts[0])
+        return
+    if len(args) > 0 and args[0] != '':
+        print("Can't change hostname.")
+        return
+    print(os.uname()[1])
 
 def timeit(opts,args):
-    debug = 1
+    global debug
     tic = time.time()
     if len(args) > 0:
         cmd = args[0]
@@ -23,8 +42,8 @@ def timeit(opts,args):
     else:
         args = args[1:]
 
-    function = get_function(cmd,debug)
-    _ = run_function(function,opts,args,debug)
+    function = get_function(cmd)
+    _ = run_function(function,opts,args)
     toc = time.time()
     print("Time taken by \'"+cmd+'\'',str(toc-tic),'secs')
 
