@@ -8,10 +8,21 @@
 
 import time
 import os
+import datetime
 from utils import inv_opt
 from modules import dir_operations 
 from main import get_function,run_function, debug
 import getpass
+
+def date(opts, args):
+    if len(opts) > 0:
+        inv_opt(date.__name__, opts[0])
+        return
+    if len(args) > 0 and args[0] != '':
+        print(date.__name__+": extra operand",args[0])
+        return
+    x = datetime.datetime.now()
+    print(x.strftime("%a %b %d %H:%M:%S"),time.tzname[0],x.strftime("%Y"))
 
 def whoami(opts,args):
     if len(opts) > 0:

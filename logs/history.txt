@@ -221,3 +221,20 @@ pwd
 timeit pwd
 timeit cd py-shell
 timeit history 10
+timeit hostname
+timeit hostname
+hostname babo
+timeit hostname babo
+timeit hostname
+whoami
+timeit whoami
+whoami
+cd /
+whoami
+ls
+ls
+ls
+date
+date
+date
+date
