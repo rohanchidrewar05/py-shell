@@ -40,7 +40,7 @@ def hostname(opts,args):
     if len(args) > 0 and args[0] != '':
         print("Can't change hostname.")
         return
-    print(os.uname()[1])
+    print(os.system('hostname'))
 
 def timeit(opts,args):
     global debug
