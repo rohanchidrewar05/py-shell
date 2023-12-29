@@ -1,8 +1,8 @@
 # step 1
 # Prepare command parser: identify command and arguments
-#directory/file related commands must be implemented as a separate module
-#Thus, to add a new command into the shell, create a python module with the same name as 
-# the command in a specific folder. 
+# directory/file related commands must be implemented as a separate module
+# Thus, to add a new command into the shell, create a python module with the same name as
+# the command in a specific folder.
 # This module should have run() function that would contain the command implementation.
 # step 2
 # log commands in history data base
@@ -15,78 +15,85 @@
 
 import os
 import sys
-from modules import file_operations,dir_operations,misc
+from modules import file_operations, dir_operations, misc
 from utils import *
 
 base_path = os.getcwd()
 debug = 1
 
-def print_command(cmd,opts,args):
-    print("command   : ",cmd)
+
+def print_command(cmd, opts, args):
+    print("command   : ", cmd)
     print("Options   : ", opts)
-    print("Arguments : ",args)
+    print("Arguments : ", args)
 
 
 def py():
-    print("pyshell>>", end=" ")    
+    print("pyshell>>", end=" ")
+
 
 def imports():
-    module_path = os.path.join(base_path,'modules')
-    modules = [f[:-3] for f in os.listdir(module_path) if os.path.isfile(os.path.join(module_path,f))]
+    module_path = os.path.join(base_path, 'modules')
+    modules = [f[:-3] for f in os.listdir(module_path) if os.path.isfile(os.path.join(module_path, f))]
     return modules
 
+
 def str_to_class(str):
-    return getattr(sys.modules[__name__],str)
+    return getattr(sys.modules[__name__], str)
+
 
 def get_function(cmd):
     modules = imports()
     for module in modules:
-                if(debug):
-                    print("Searching in :",module)
-                try:
-                    function = getattr(str_to_class(module),cmd)
-                    if(debug):
-                        print("Found function : ",function," in :",module)
-                        return function
-                    break
-                except AttributeError:
-                    pass
+        if debug:
+            print("Searching in :", module)
+        try:
+            function = getattr(str_to_class(module), cmd)
+            if debug:
+                print("Found function : ", function, " in :", module)
+                return function
+            break
+        except AttributeError:
+            pass
 
-def run_function(function,opts,args):
+
+def run_function(function, opts, args):
     try:
-        if(debug):
-            print("Running : ",function)
-        function(opts,args)
-        del(function)
+        if debug:
+            print("Running : ", function)
+
+        function(opts, args)
+        del function
         return True
     except TypeError:
         print("Command not found")
         return
 
+
 if __name__ == "__main__":
-    #CORE EVENT LOOP
+    # CORE EVENT LOOP
     version = "v0.001"
-    hf_path,count = initalize_history()
-    #print(modules)
-    print("Welcome to pyshell",version)
+    hf_path, count = initalize_history()
+    # print(modules)
+    print("Welcome to pyshell", version)
     try:
-        while(1):
+        while 1:
             py()
             ori_cmd = input()
-            if(not len(ori_cmd)):
+            if not len(ori_cmd):
                 continue
-            opts,args = [],[]
+            opts, args = [], []
 
             cmd, opts, args = pre_process_cmd(ori_cmd)
-            
-            if(debug):
-                print_command(cmd,opts,args)
+
+            if debug:
+                print_command(cmd, opts, args)
 
             function = get_function(cmd)
 
-            log_it = run_function(function,opts,args)
+            log_it = run_function(function, opts, args)
             if log_it:
-                count = log_cmd(ori_cmd,hf_path,count)
-    except (KeyboardInterrupt,EOFError):
-        print("\nThanks for using pyshell",version)
-        print("Closing...")   
+                count = log_cmd(ori_cmd, hf_path, count)
+    except (KeyboardInterrupt, EOFError):
+        print("\nThanks for using pyshell", version)
+        print("Closing...")
